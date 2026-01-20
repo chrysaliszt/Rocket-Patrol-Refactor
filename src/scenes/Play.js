@@ -23,6 +23,11 @@ class Play extends Phaser.Scene {
             'rocket'
         ).setOrigin(0.5, 0)
 
+        // add spaceships (x3)
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
+        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0)
+        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0)
+
         // define keys
         keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
@@ -34,6 +39,11 @@ class Play extends Phaser.Scene {
         this.starfield.tilePositionX -= game.config.width / 640 * 2
 
         this.p1Rocket.update()
+
+        this.ship01.update()               // update spaceships (x3)
+        this.ship02.update()
+        this.ship03.update()
+
     }
     
 }
