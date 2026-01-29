@@ -62,6 +62,21 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
             this.gameOver = true
         }, null, this)
+
+        // timer display
+        let timerConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
+        this.timerText = this.add.text(game.config.width - borderUISize - borderPadding - 100, borderUISize + borderPadding*2, this.clock.getRemainingSeconds(), timerConfig)
     }
 
     update() {
@@ -87,17 +102,28 @@ class Play extends Phaser.Scene {
             console.log('kaboom ship 03')
             this.p1Rocket.reset()
             this.shipExplode(this.ship03)
+            this.clock.delay += 5000
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)) {
             console.log('kaboom ship 02')
             this.p1Rocket.reset()
             this.shipExplode(this.ship02)
+            this.clock.delay += 5000
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             console.log('kaboom ship 01')
             this.p1Rocket.reset()
             this.shipExplode(this.ship01)
+            this.clock.delay += 5000
         }
+
+        // reset on miss
+        if(this.p1Rocket.y <= borderUISize * 3 + borderPadding) {
+            this.p1Rocket.reset()
+            this.clock.delay -= 10000
+        }
+
+        this.timerText.text = this.clock.getRemainingSeconds()
     }
     
     checkCollision(rocket, ship) {
